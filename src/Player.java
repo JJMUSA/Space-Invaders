@@ -6,8 +6,8 @@ import java.awt.*;
 public class Player extends GameObject{
     Controller ctrl;
     Bullet bullet;
-    public Player(double x,double y, double v, Controller ctrl) {
-        super(x,y,v);
+    public Player(double x,double y, double v,double width, double heigth, Controller ctrl) {
+        super(x,y,v,width,heigth);
         this.ctrl=ctrl;
     }
 
@@ -24,11 +24,15 @@ public class Player extends GameObject{
 
     public void draw(Graphics2D g){
         g.setColor(Color.blue);
-        g.fillOval((int)x+10,(int)y+10,20,20);
+        g.fillOval((int)x,(int)y,(int)width,(int)heigth);
     }
 
     public void mkBullet(){
-        bullet=new Bullet(x+5,y,Bullet.SPEED);
+        bullet=new Bullet(x+5,y,Bullet.SPEED,3,Bullet.HEIGTH);
+    }
+
+    public void collisionHandling(){
+        dead=true;
     }
 
 

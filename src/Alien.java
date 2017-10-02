@@ -6,8 +6,8 @@ public class Alien extends GameObject{
     public final static double SPEED=0.4;
     public int direction=1;
 
-    public Alien(double x, double y){
-        super(x,y,SPEED);
+    public Alien(double x, double y,double width, double heigth){
+        super(x,y,SPEED,width,heigth);
     }
 
     public void update(){
@@ -16,10 +16,14 @@ public class Alien extends GameObject{
 
     public void draw(Graphics2D g){
         g.setColor(Color.red);
-        g.fillOval((int)x+10,(int) y+10,20,20);
+        g.fillOval((int)x,(int) y,(int)width,(int)heigth);
     }
 
     public void setDirection(int direction){this.direction=direction;}
+
+    public void collisionHandling(){
+        dead=true;
+    }
 
 
 }

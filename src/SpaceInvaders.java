@@ -1,7 +1,8 @@
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
+
 
 
 public class SpaceInvaders {
@@ -15,14 +16,14 @@ public class SpaceInvaders {
 
     public SpaceInvaders(){
         ctrl=new Controller();
-        player=new Player(Constants.LEFT_BORDER,(double)Constants.GROUND-30,0,ctrl);
+        player=new Player(Constants.LEFT_BORDER,(double)Constants.GROUND-30,0,20,20,ctrl);
 
 
         gameObj=new ArrayList<>();
         Aliens=new ArrayList<>();
         bullets=new ArrayList<>();
         for(int i=0;i<10;i++){
-            Alien alien=new Alien(+i*25,80);
+            Alien alien=new Alien(+i*25,80,20,20);
             Aliens.add(alien);
         }
         gameObj.addAll(Aliens);
@@ -38,7 +39,36 @@ public class SpaceInvaders {
             for (GameObject obj : gameObj) {
                 obj.update();
             }
+
+
+            for (Bullet bullet : bullets) {
+                for (Alien al : Aliens) {
+                    Rectangle r=al.bondingBox();
+                    if (bullet.collisionDetection(r) && al.collisionDetection(bullet.bondingBox())) {
+                        System.out.println(true);
+                        bullet.collisionHandling();
+                        al.collisionHandling();
+                    }
+                }
+            }
+
+            List<GameObject> liveObjects=new ArrayList<>();
+
+            for(GameObject obj:gameObj){
+                if(!obj.dead){
+                    liveObjects.add(obj);
+                }
+                else{
+                    if(obj instanceof Alien)Aliens.remove(obj);
+                    if (obj instanceof Bullet)bullets.remove(obj);
+                }
+            }
+            gameObj.clear();
+            gameObj.addAll(liveObjects);
         }
+
+
+
         int d=Aliens.get(0).direction;
         Iterator alienIt=Aliens.iterator();
         if(d==1) {
@@ -53,6 +83,7 @@ public class SpaceInvaders {
                 }
             }
         }
+
         else if(d==-1){
             for(Alien a:Aliens){
                 double x=a.x;

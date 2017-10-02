@@ -7,9 +7,10 @@ public class Bullet extends GameObject{
     private final int H_SPACE=0;
     private final int V_SPACE=1;
     public static final double SPEED=-3;
-    public Bullet(double x, double y, double v){
+    public static final double HEIGTH=5;
+    public Bullet(double x, double y, double v,double width,double heigth){
 
-        super(x,y,v);
+        super(x,y,v,width,heigth);
     }
 
     public void update(){
@@ -21,6 +22,10 @@ public class Bullet extends GameObject{
 
     public void draw(Graphics2D g){
         g.setColor(Color.RED);
-        g.drawLine((int)x,(int)y,(int)x,(int)y+5);
+        g.drawLine((int)x,(int)y,(int)x,(int)(y+heigth));
+    }
+
+    public void collisionHandling(){
+        dead=true;
     }
 }
