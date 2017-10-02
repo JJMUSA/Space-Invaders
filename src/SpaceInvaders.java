@@ -11,15 +11,17 @@ public class SpaceInvaders {
 
     public List<GameObject> gameObj;
     public List<Alien> Aliens;
+    public List<Bullet> bullets;
 
     public SpaceInvaders(){
         ctrl=new Controller();
-        player=new Player(5,450,0,ctrl);
+        player=new Player(Constants.LEFT_BORDER,(double)Constants.GROUND-30,0,ctrl);
 
 
         gameObj=new ArrayList<>();
         Aliens=new ArrayList<>();
-        for(int i=0;i<5;i++){
+        bullets=new ArrayList<>();
+        for(int i=0;i<10;i++){
             Alien alien=new Alien(+i*25,80);
             Aliens.add(alien);
         }
@@ -29,9 +31,13 @@ public class SpaceInvaders {
     }
 
     private void update(){
-        if(player.bullet!=null)gameObj.add(player.bullet);
-        for(GameObject obj:gameObj){
-            obj.update();
+        synchronized (SpaceInvaders.class) {
+            if (player.bullet != null) bullets.add(player.bullet);
+            gameObj.addAll(bullets);
+            player.update();
+            for (GameObject obj : gameObj) {
+                obj.update();
+            }
         }
         int d=Aliens.get(0).direction;
         Iterator alienIt=Aliens.iterator();

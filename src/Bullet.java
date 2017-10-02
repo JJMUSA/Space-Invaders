@@ -21,6 +21,6 @@ public class Bullet extends GameObject{
 
     public void draw(Graphics2D g){
         g.setColor(Color.RED);
-        g.drawLine((int)x,(int)y,(int)x,(int)y);
+        g.drawLine((int)x,(int)y,(int)x,(int)y+5);
     }
 }

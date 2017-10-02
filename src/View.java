@@ -15,9 +15,14 @@ public class View extends JPanel {
         Graphics2D g=(Graphics2D) g0;
         g.setBackground(Color.black);
         g.fillRect(0,0,getWidth(),getHeight());
-        for(GameObject obj:game.gameObj){
-            obj.draw(g);
+        g.setColor(Color.green);
+        g.drawLine(0,Constants.GROUND,Constants.FRAME_WIDTH,Constants.GROUND);
+        synchronized (SpaceInvaders.class) {
+            for (GameObject obj : game.gameObj) {
+                obj.draw(g);
+            }
         }
+
     }
 
     @Override
