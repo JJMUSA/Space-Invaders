@@ -2,7 +2,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+import java.util.Random;
 
 
 public class SpaceInvaders {
@@ -13,6 +13,10 @@ public class SpaceInvaders {
     public List<GameObject> gameObj;
     public List<Alien> Aliens;
     public List<Bullet> bullets;
+    public List<Bomb> bombs;
+    private int shotingFreq=5;
+    private Random numberOfShoters=new Random(7);
+    private Random shooter;
 
     public SpaceInvaders(){
         ctrl=new Controller();
@@ -28,20 +32,36 @@ public class SpaceInvaders {
                 Aliens.add(alien);
             }
         }
+
         gameObj.addAll(Aliens);
         gameObj.add(player);
 
     }
 
     private void update(){
+        System.out.println(Aliens.size());
+
+        shooter=new Random(Aliens.size()-1);
+        while(shotingFreq==0){
+            for (int i=0;i<numberOfShoters.nextInt();i++){
+                int n=shooter.nextInt(50);
+                System.out.println(n);
+                Alien al=Aliens.get(n);
+                al.dropBomb();
+            }
+            shotingFreq=5;
+        }
+        shotingFreq-=1;
+
         synchronized (SpaceInvaders.class) {
             if (player.bullet != null&&bullets.size()==0) bullets.add(player.bullet);
-            System.out.println(bullets.size());
             gameObj.addAll(bullets);
             player.update();
             for (GameObject obj : gameObj) {
                 obj.update();
             }
+
+
 
 
             for (Bullet bullet : bullets) {
