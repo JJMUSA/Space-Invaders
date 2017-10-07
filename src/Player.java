@@ -15,20 +15,18 @@ public class Player extends GameObject{
         x+=(double) ctrl.action.move;
         if(x>Constants.FRAME_WIDTH-Constants.RIGHT_BORDER)x=Constants.FRAME_WIDTH-Constants.RIGHT_BORDER;
         if(x<=Constants.LEFT_BORDER)x=Constants.LEFT_BORDER;
-        if(ctrl.action.shoot) {
-            //if (ctrl.action.move == -1) mkBullet(x-2);
-            //if (ctrl.action.move == 1) mkBullet(x+2);
-             mkBullet();
-        }
+        if(ctrl.action.shoot)mkBullet();
+        else bullet=null;
+
     }
 
     public void draw(Graphics2D g){
         g.setColor(Color.blue);
-        g.fillOval((int)x,(int)y,(int)width,(int)heigth);
+        g.fillOval((int)x,(int)y,(int)width,(int) height);
     }
 
     public void mkBullet(){
-        bullet=new Bullet(x+5,y,Bullet.SPEED,3,Bullet.HEIGTH);
+        bullet=new Bullet(x+5,y,Bullet.SPEED,Bullet.WIDTH,Bullet.HEIGTH);
     }
 
     public void collisionHandling(){

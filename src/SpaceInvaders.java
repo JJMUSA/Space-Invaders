@@ -22,9 +22,11 @@ public class SpaceInvaders {
         gameObj=new ArrayList<>();
         Aliens=new ArrayList<>();
         bullets=new ArrayList<>();
-        for(int i=0;i<10;i++){
-            Alien alien=new Alien(+i*25,80,20,20);
-            Aliens.add(alien);
+        for(int i=0;i<5;i++){
+            for(int j=0;j<12;j++) {
+                Alien alien = new Alien(Constants.LEFT_BORDER + j * 30, Constants.CEILING + 25 * i, 20, 20);
+                Aliens.add(alien);
+            }
         }
         gameObj.addAll(Aliens);
         gameObj.add(player);
@@ -33,7 +35,8 @@ public class SpaceInvaders {
 
     private void update(){
         synchronized (SpaceInvaders.class) {
-            if (player.bullet != null) bullets.add(player.bullet);
+            if (player.bullet != null&&bullets.size()==0) bullets.add(player.bullet);
+            System.out.println(bullets.size());
             gameObj.addAll(bullets);
             player.update();
             for (GameObject obj : gameObj) {
@@ -45,7 +48,6 @@ public class SpaceInvaders {
                 for (Alien al : Aliens) {
                     Rectangle r=al.bondingBox();
                     if (bullet.collisionDetection(r) && al.collisionDetection(bullet.bondingBox())) {
-                        System.out.println(true);
                         bullet.collisionHandling();
                         al.collisionHandling();
                     }

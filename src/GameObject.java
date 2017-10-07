@@ -6,18 +6,18 @@ public abstract class GameObject
 {
     double x, y;
     double width;
-    double heigth;
+    double height;
     double v;
     boolean dead;
 
 
-    public GameObject(double x, double y, double v,double width,double heigth ){
+    public GameObject(double x, double y, double v,double width,double height){
 
         this.x=x;
         this.y=y;
         this.v=v;
         this.width=width;
-        this.heigth=heigth;
+        this.height = height;
     }
 
     public abstract void update();
@@ -36,7 +36,7 @@ public abstract class GameObject
     public void setY(double y) {this.y=y;}
 
     public Rectangle bondingBox() {
-        return new Rectangle((int) x, (int) y, (int) width, (int) heigth);
+        return new Rectangle((int) x, (int) y, (int) width, (int) height);
     }
 
 }

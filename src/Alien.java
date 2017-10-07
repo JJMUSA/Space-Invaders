@@ -3,7 +3,7 @@ import java.awt.*;
 public class Alien extends GameObject{
     private boolean bomb;
     public final static double STARTING_POS=0;
-    public final static double SPEED=0.4;
+    public final static double SPEED=0.6;
     public int direction=1;
 
     public Alien(double x, double y,double width, double heigth){
@@ -16,7 +16,7 @@ public class Alien extends GameObject{
 
     public void draw(Graphics2D g){
         g.setColor(Color.red);
-        g.fillOval((int)x,(int) y,(int)width,(int)heigth);
+        g.fillOval((int)x,(int) y,(int)width,(int) height);
     }
 
     public void setDirection(int direction){this.direction=direction;}

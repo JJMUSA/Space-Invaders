@@ -26,6 +26,8 @@ public class Controller extends KeyAdapter{
 
     }
 
+
+
     @Override
     public void keyReleased(KeyEvent e){
         int key=e.getKeyCode();
