@@ -14,6 +14,10 @@ public class Alien extends GameObject{
         x+=direction*v;
     }
 
+    public Bomb getBomb(){
+        return bomb;
+    }
+
     public void draw(Graphics2D g){
         g.setColor(Color.red);
         g.fillOval((int)x,(int) y,(int)width,(int) height);

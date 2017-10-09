@@ -26,6 +26,7 @@ public class SpaceInvaders {
         gameObj=new ArrayList<>();
         Aliens=new ArrayList<>();
         bullets=new ArrayList<>();
+        bombs=new ArrayList<>();
         for(int i=0;i<5;i++){
             for(int j=0;j<12;j++) {
                 Alien alien = new Alien(Constants.LEFT_BORDER + j * 30, Constants.CEILING + 25 * i, 20, 20);
@@ -48,12 +49,15 @@ public class SpaceInvaders {
                 System.out.println(n);
                 Alien al=Aliens.get(n);
                 al.dropBomb();
+                bombs.add(al.getBomb());
             }
             shotingFreq=5;
         }
+
         shotingFreq-=1;
 
         synchronized (SpaceInvaders.class) {
+            gameObj.addAll(bombs);
             if (player.bullet != null&&bullets.size()==0) bullets.add(player.bullet);
             gameObj.addAll(bullets);
             player.update();
