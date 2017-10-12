@@ -20,8 +20,10 @@ public class Alien extends GameObject{
     }
 
     public void dropBomb(){
-        bomb=new Bomb(x,y);
+        bomb=new Bomb(x+width/2,y+height);
     }
+
+    public Bomb getBomb(){return bomb;}
 
     public void setDirection(int direction){this.direction=direction;}
 
