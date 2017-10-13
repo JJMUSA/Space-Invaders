@@ -6,13 +6,26 @@ import java.awt.*;
 public class Player extends GameObject{
     Controller ctrl;
     Bullet bullet;
+
+    double accleration=0.5;
+    double decleartion=1;
+
     public Player(double x,double y, double v,double width, double heigth, Controller ctrl) {
         super(x,y,v,width,heigth);
         this.ctrl=ctrl;
     }
 
     public void update(){
-        x+=(double) ctrl.action.move;
+        if(ctrl.action.move!=0) {
+            v += ctrl.action.move * accleration;
+            if (v < -2) v = -2;
+            if (v > 2) v = 2;
+        }
+        else {
+            if(v>0)v-=decleartion;
+            if(v<0)v+=decleartion;
+        }
+        x+=v;
         if(x>Constants.FRAME_WIDTH-Constants.RIGHT_BORDER)x=Constants.FRAME_WIDTH-Constants.RIGHT_BORDER;
         if(x<=Constants.LEFT_BORDER)x=Constants.LEFT_BORDER;
         if(ctrl.action.shoot)mkBullet();

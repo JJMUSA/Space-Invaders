@@ -1,9 +1,9 @@
 import java.awt.*;
 
 public class Alien extends GameObject{
-    private Bomb bomb;
+    public Bomb bomb;
     public final static double STARTING_POS=0;
-    public final static double SPEED=0.6;
+    public final static double SPEED=0.3;
     public int direction=1;
 
     public Alien(double x, double y,double width, double heigth){
@@ -11,11 +11,9 @@ public class Alien extends GameObject{
     }
 
     public void update(){
-        x+=direction*v;
-    }
 
-    public Bomb getBomb(){
-        return bomb;
+        x+=direction*v;
+        if(bomb!=null)if(bomb.dead)bomb=null;
     }
 
     public void draw(Graphics2D g){
@@ -24,7 +22,7 @@ public class Alien extends GameObject{
     }
 
     public void dropBomb(){
-        bomb=new Bomb(x,y);
+        bomb=new Bomb(x+width/2,y+height);
     }
 
     public void setDirection(int direction){this.direction=direction;}
