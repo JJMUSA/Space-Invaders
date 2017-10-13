@@ -13,7 +13,9 @@ public class Bomb extends GameObject{
     }
 
     public void update(){
+
         y+=v;
+        if(y>Constants.GROUND)dead=true;
     }
 
     public void draw(Graphics2D g){

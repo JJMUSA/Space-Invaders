@@ -8,7 +8,7 @@ public abstract class GameObject
     double width;
     double height;
     double v;
-    boolean dead;
+    boolean dead=false;
 
 
     public GameObject(double x, double y, double v,double width,double height){
