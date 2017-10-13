@@ -14,9 +14,9 @@ public class SpaceInvaders {
     public List<Alien> Aliens;
     public List<Bullet> bullets;
     public List<Bomb> bombs;
-    private int shotingFreq=5;
-    private Random numberOfShoters=new Random(7);
     private Random shooter;
+    private long time=System.currentTimeMillis();
+    private int lives=3;
 
     public SpaceInvaders(){
         ctrl=new Controller();
@@ -33,40 +33,30 @@ public class SpaceInvaders {
                 Aliens.add(alien);
             }
         }
-
+        shooter=new Random(Aliens.size());
         gameObj.addAll(Aliens);
         gameObj.add(player);
 
     }
 
     private void update(){
-        System.out.println(Aliens.size());
-
-        shooter=new Random(Aliens.size()-1);
-        while(shotingFreq==0){
-            for (int i=0;i<numberOfShoters.nextInt();i++){
-                int n=shooter.nextInt(50);
-                System.out.println(n);
-                Alien al=Aliens.get(n);
-                al.dropBomb();
-                bombs.add(al.getBomb());
-            }
-            shotingFreq=5;
-        }
-
-        shotingFreq-=1;
-
         synchronized (SpaceInvaders.class) {
+            long currentTime=System.currentTimeMillis();
+            long elapsedTime=currentTime-time;
+            if(elapsedTime>450){
+                Alien alien=Aliens.get(shooter.nextInt(Aliens.size()));
+                while(alien.bomb!=null)alien=Aliens.get(shooter.nextInt(Aliens.size()));
+                alien.dropBomb();
+                bombs.add(alien.bomb);
+                time=currentTime;
+            }
             gameObj.addAll(bombs);
+
             if (player.bullet != null&&bullets.size()==0) bullets.add(player.bullet);
             gameObj.addAll(bullets);
-            player.update();
             for (GameObject obj : gameObj) {
                 obj.update();
             }
-
-
-
 
             for (Bullet bullet : bullets) {
                 for (Alien al : Aliens) {
@@ -75,6 +65,13 @@ public class SpaceInvaders {
                         bullet.collisionHandling();
                         al.collisionHandling();
                     }
+                }
+            }
+
+            for(Bomb bomb:bombs){
+                if(bomb.bondingBox().intersects(player.bondingBox())&&player.bondingBox().intersects(bomb.bondingBox())){
+                    bomb.collisionHandling();
+                    player.collisionHandling();
                 }
             }
 
@@ -87,10 +84,18 @@ public class SpaceInvaders {
                 else{
                     if(obj instanceof Alien)Aliens.remove(obj);
                     if (obj instanceof Bullet)bullets.remove(obj);
+                    if (obj instanceof Bomb)bombs.remove(obj);
                 }
             }
             gameObj.clear();
             gameObj.addAll(liveObjects);
+            if(player.dead&&lives>0){
+                player.dead=false;
+                player.setX(Constants.LEFT_BORDER);
+                player.setY(Constants.GROUND-30);
+                lives-=1;
+                gameObj.add(player);
+            }
         }
 
 
@@ -125,6 +130,9 @@ public class SpaceInvaders {
         }
 
 
+    }
+    public int getLives(){
+        return lives;
     }
 
     public static void main(String[] args){

@@ -17,6 +17,10 @@ public class View extends JPanel {
         g.fillRect(0,0,getWidth(),getHeight());
         g.setColor(Color.green);
         g.drawLine(0,Constants.GROUND,Constants.FRAME_WIDTH,Constants.GROUND);
+        for(int i=0;i<game.getLives();i++){
+            g.setColor(Color.green);
+            g.fillRect(350+(i*50),0,20,20);
+        }
         synchronized (SpaceInvaders.class) {
             for (GameObject obj : game.gameObj) {
                 obj.draw(g);
