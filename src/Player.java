@@ -31,8 +31,7 @@ public class Player extends GameObject{
             if(v<0)v+=decleartion;
         }
         x+=v;
-        if(x>Constants.FRAME_WIDTH-Constants.RIGHT_BORDER)x=Constants.FRAME_WIDTH-Constants.RIGHT_BORDER;
-        if(x<=Constants.LEFT_BORDER)x=Constants.LEFT_BORDER;
+        x=Math.max(Math.min(x,Constants.FRAME_WIDTH-30),Constants.LEFT_BORDER);
         if(ctrl.action.shoot)mkBullet();
         else bullet=null;
 
@@ -43,7 +42,7 @@ public class Player extends GameObject{
     }
 
     public void mkBullet(){
-        bullet=new Bullet(x+5,y,Bullet.SPEED,Bullet.WIDTH,Bullet.HEIGTH);
+        bullet=new Bullet(x+10,y);
     }
 
     public void collisionHandling(){

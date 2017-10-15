@@ -5,12 +5,20 @@ import java.awt.*;
  */
 public class Bullet extends GameObject{
 
-    public static final double SPEED=-0.5;
-    public static final double WIDTH=3;
-    public static final double HEIGTH=3;
-    public Bullet(double x, double y, double v,double width,double heigth){
+    public static final double PLAYERBULLETSPEED=-0.5;
+    public static final double ALIENBOMBSPEED=0.3;
+    public static final double WIDTH=5;
+    public static final double HEIGHT=3;
+    Color color;
+    public Bullet(double x, double y){
 
-        super(x,y,v,width,heigth);
+        super(x,y,PLAYERBULLETSPEED,WIDTH,HEIGHT);
+        color=Color.red;
+
+    }
+    public Bullet(double x,double y,Color c){
+        super(x,y,ALIENBOMBSPEED,WIDTH,HEIGHT);
+        color=c;
     }
 
     public void update(){
@@ -19,8 +27,8 @@ public class Bullet extends GameObject{
     }
 
     public void draw(Graphics2D g){
-        g.setColor(Color.RED);
-        g.drawOval((int)x,(int)y,(int)width,(int) height);
+        g.setColor(color);
+        g.fillOval((int)x,(int)y,(int)width,(int) height);
     }
 
     public void collisionHandling(){

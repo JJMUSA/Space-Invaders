@@ -1,8 +1,6 @@
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
 
 public class SpaceInvaders {
@@ -13,10 +11,11 @@ public class SpaceInvaders {
     public List<GameObject> gameObj;
     public List<Alien> Aliens;
     public List<Bullet> bullets;
-    public List<Bomb> bombs;
+    public List<Bullet> bombs;
     private Random shooter;
     private long time=System.currentTimeMillis();
     private int lives=3;
+    private int death=0;
 
     public SpaceInvaders(){
         ctrl=new Controller();
@@ -29,7 +28,7 @@ public class SpaceInvaders {
         bombs=new ArrayList<>();
         for(int i=0;i<5;i++){
             for(int j=0;j<12;j++) {
-                int sprite=(i>1)? 2:i;
+                int sprite=(i>2)? 2:i;
                 Alien alien = new Alien(Constants.LEFT_BORDER + j * 30, Constants.CEILING + 25 * i, 20, 20,Constants.AlienSprites[sprite]);
                 Aliens.add(alien);
             }
@@ -40,12 +39,14 @@ public class SpaceInvaders {
 
     }
 
+
+
     private void update(){
         synchronized (SpaceInvaders.class) {
             long currentTime=System.currentTimeMillis();
             long elapsedTime=currentTime-time;
-            if(elapsedTime>450){
-                Alien alien=Aliens.get(shooter.nextInt(Aliens.size()));
+            if(elapsedTime>450&&Aliens.size()>0){
+                Alien alien= Aliens.get(shooter.nextInt(Aliens.size()));
                 while(alien.bomb!=null)alien=Aliens.get(shooter.nextInt(Aliens.size()));
                 alien.dropBomb();
                 bombs.add(alien.bomb);
@@ -69,7 +70,7 @@ public class SpaceInvaders {
                 }
             }
 
-            for(Bomb bomb:bombs){
+            for(Bullet bomb:bombs){
                 if(bomb.bondingBox().intersects(player.bondingBox())&&player.bondingBox().intersects(bomb.bondingBox())){
                     bomb.collisionHandling();
                     player.collisionHandling();
@@ -84,8 +85,8 @@ public class SpaceInvaders {
                 }
                 else{
                     if(obj instanceof Alien)Aliens.remove(obj);
-                    if (obj instanceof Bullet)bullets.remove(obj);
-                    if (obj instanceof Bomb)bombs.remove(obj);
+                    if (obj instanceof Bullet && obj.v==Bullet.PLAYERBULLETSPEED)bullets.remove(obj);
+                    if (obj instanceof Bullet && obj.v==Bullet.ALIENBOMBSPEED)bombs.remove(obj);
                 }
             }
             gameObj.clear();
@@ -99,40 +100,24 @@ public class SpaceInvaders {
             }
         }
 
-
-
-        int d=Aliens.get(0).direction;
-        Iterator alienIt=Aliens.iterator();
-        if(d==1) {
-            for (Alien a : Aliens) {
-                double x = a.x;
-                if (x>=Constants.FRAME_WIDTH-Constants.RIGHT_BORDER){
-                    while(alienIt.hasNext()){
-                        Alien al=(Alien)alienIt.next();
-                        al.setY(al.y +1);
-                        al.setDirection(-1);
-                    }
-                }
+        Alien.AlienComparator comp=new Alien.AlienComparator();
+        Alien _max= Collections.max(Aliens,comp);
+        Alien _min=Collections.min(Aliens,comp);
+        Iterator AliensIt=Aliens.iterator();
+        if(_min.x<Constants.LEFT_BORDER || _max.x>Constants.FRAME_WIDTH-30){
+            while(AliensIt.hasNext()){
+                Alien al=(Alien) AliensIt.next();
+                al.direction*=-1;
+                al.setY(al.y+15);
             }
         }
 
-        else if(d==-1){
-            for(Alien a:Aliens){
-                double x=a.x;
-                if(x<=Constants.LEFT_BORDER){
-                    while(alienIt.hasNext()){
-                        Alien al=(Alien)alienIt.next();
-                        al.setY(al.y+1);
-                        al.setDirection(1);
-                    }
-                }
-            }
 
-        }
 
 
     }
     public int getLives(){
+
         return lives;
     }
 
