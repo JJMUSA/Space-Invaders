@@ -1,4 +1,7 @@
+import javafx.embed.swing.SwingFXUtils;
+
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by cc on 8/16/2017.
@@ -6,6 +9,7 @@ import java.awt.*;
 public class Player extends GameObject{
     Controller ctrl;
     Bullet bullet;
+    Image image=Constants.PlayerSprite;
 
     double accleration=0.5;
     double decleartion=1;
@@ -13,6 +17,7 @@ public class Player extends GameObject{
     public Player(double x,double y, double v,double width, double heigth, Controller ctrl) {
         super(x,y,v,width,heigth);
         this.ctrl=ctrl;
+
     }
 
     public void update(){
@@ -34,8 +39,7 @@ public class Player extends GameObject{
     }
 
     public void draw(Graphics2D g){
-        g.setColor(Color.blue);
-        g.fillOval((int)x,(int)y,(int)width,(int) height);
+        g.drawImage(image,(int)x,(int)y,null);
     }
 
     public void mkBullet(){

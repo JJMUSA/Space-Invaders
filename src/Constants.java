@@ -1,12 +1,12 @@
 import javax.imageio.ImageIO;
-import java.io.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-;
+import java.io.File;
+import java.io.IOException;
+import java.nio.Buffer;
 
 
 public class Constants {
-
     public static final double CEILING=80;
     public static final double RIGHT_BORDER=30;
     public static final double LEFT_BORDER=5;
@@ -14,23 +14,23 @@ public class Constants {
     public static final int FRAME_WIDTH=500;
     public static final int GROUND=390;
     public static final Dimension FRAME_SIZE=new Dimension(Constants.FRAME_WIDTH,Constants.FRAME_HEIGHT);
-    public static BufferedImage[][] ALIENS;
-
-    public static void makeSpirites(){
-        try
-
-        {
-            BufferedImage spiriteSheet = ImageIO.read(new File("invaders.png"));
-            ALIENS[0][0]=spiriteSheet.getSubimage(0,0,22,16);
-            ALIENS[0][1]=spiriteSheet.getSubimage(0,16,22,16);
-            ALIENS[1][0]=spiriteSheet.getSubimage(22,0,16,16);
-            ALIENS[1][1]=spiriteSheet.getSubimage(22,16,16,16);
-            ALIENS[2][0]=spiriteSheet.getSubimage(30,0,24,16);
-            ALIENS[2][1]=spiriteSheet.getSubimage(34,16,24,16);
+    public static BufferedImage[][] AlienSprites={{getSprites(0,0,22,16)},{getSprites(0,16,22,16)},
+                                                    {getSprites(22,0,16,16)},{getSprites(22,16,16,16)},
+                                                    {getSprites(22,0,16,16)},{getSprites(22,16,16,16)},
+                                                    {getSprites(38,0,24,16)},{getSprites(38,16,24,16)}
+                                                    };
+    public static BufferedImage PlayerSprite=getSprites(62,0,22,16);
+    public static BufferedImage BlockerSprite=getSprites(84,8,36,24);
+    public static BufferedImage getSprites(int x, int y, int width, int height){
+        BufferedImage spriteSheet=null;
+        BufferedImage sprite;
+        try{
+            spriteSheet= ImageIO.read(new File("invaders.png"));
         }
-        catch(IOException e){e.printStackTrace();  }
-
-
-
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        sprite=spriteSheet.getSubimage(x,y,width,height) ;
+        return sprite;
     }
 }

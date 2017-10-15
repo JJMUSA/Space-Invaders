@@ -29,7 +29,8 @@ public class SpaceInvaders {
         bombs=new ArrayList<>();
         for(int i=0;i<5;i++){
             for(int j=0;j<12;j++) {
-                Alien alien = new Alien(Constants.LEFT_BORDER + j * 30, Constants.CEILING + 25 * i, 20, 20);
+                int sprite=(i>1)? 2:i;
+                Alien alien = new Alien(Constants.LEFT_BORDER + j * 30, Constants.CEILING + 25 * i, 20, 20,Constants.AlienSprites[sprite]);
                 Aliens.add(alien);
             }
         }
