@@ -12,10 +12,10 @@ public class SpaceInvaders {
     public List<Alien> Aliens;
     public List<Bullet> bullets;
     public List<Bullet> bombs;
-    private Random shooter;
+     private Random shooter;
     private long time=System.currentTimeMillis();
     private int lives=3;
-    private int death=0;
+    private int score=0;
 
     public SpaceInvaders(){
         ctrl=new Controller();
@@ -66,6 +66,7 @@ public class SpaceInvaders {
                     if (bullet.collisionDetection(r) && al.collisionDetection(bullet.bondingBox())) {
                         bullet.collisionHandling();
                         al.collisionHandling();
+                        score+=10;
                     }
                 }
             }
@@ -85,8 +86,10 @@ public class SpaceInvaders {
                 }
                 else{
                     if(obj instanceof Alien)Aliens.remove(obj);
-                    if (obj instanceof Bullet && obj.v==Bullet.PLAYERBULLETSPEED)bullets.remove(obj);
-                    if (obj instanceof Bullet && obj.v==Bullet.ALIENBOMBSPEED)bombs.remove(obj);
+                    if (obj instanceof Bullet){
+                        if(obj.v==Bullet.PLAYERBULLETSPEED)bullets.remove(obj);
+                        else bombs.remove(obj);
+                    }
                 }
             }
             gameObj.clear();
@@ -117,9 +120,9 @@ public class SpaceInvaders {
 
     }
     public int getLives(){
-
         return lives;
     }
+    public int getScore(){return score;}
 
     public static void main(String[] args){
         SpaceInvaders game=new SpaceInvaders();
